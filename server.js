@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt'); // Importing Bcrypt: Allows password encryptio
 const cors = require('cors'); // Importing CORS: Grants Access-Control-Allow-Origin between browser and server'
 const knex = require('knex'); // Importing Knex: Connects Server and Database
 const Clarifai = require('clarifai'); // Importing clarifai for image recognition
-// require('dotenv').config({path: __dirname + '/' + 'variables.env'}); // Imports environmental variables from variables.env and configs them
 
 // DATABASE SETTINGS
 const database = knex({
