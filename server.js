@@ -4,17 +4,15 @@ const bcrypt = require('bcrypt'); // Importing Bcrypt: Allows password encryptio
 const cors = require('cors'); // Importing CORS: Grants Access-Control-Allow-Origin between browser and server'
 const knex = require('knex'); // Importing Knex: Connects Server and Database
 const Clarifai = require('clarifai'); // Importing clarifai for image recognition
-require('dotenv').config({path: __dirname + '/' + 'variables.env'}); // Imports environmental variables from variables.env and configs them
+// require('dotenv').config({path: __dirname + '/' + 'variables.env'}); // Imports environmental variables from variables.env and configs them
 
 // DATABASE SETTINGS
 const database = knex({
 	//process.env.{variable} imports variables from variables.env file in root directory
   client: 'pg',
   connection: {
-    host : 'postgresql-regular-42295',
-    user : 'postgres',
-    password : '23deMaio145',
-    database : 'magicbrain'
+    connectionString : process.env.DATABASE_URL,
+    ssl: true
   }
 });
 
