@@ -34,11 +34,11 @@ app.use((req, res, next) => {
 	next();
 })
 
-// Get Database on root
-// app.get('/', (req, res) => {
-// 	console.log(`${moment().format('MMMM Do YYYY, h:mm:ss a')}: SUCCESS - Database RETRIEVED sucessfully`);
-// 	return res.send(database.users);
-// })
+Get Database on root
+app.get('/', (req, res) => {
+	console.log(`${moment().format('MMMM Do YYYY, h:mm:ss a')}: SUCCESS - Database RETRIEVED sucessfully`);
+	return res.send('it is working!');
+})
 
 // Get single user
 app.get('/profile/:id', (req, res) => {
