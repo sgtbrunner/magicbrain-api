@@ -30,13 +30,13 @@ app.use(cors());
 
 // Server logger
 app.use((req, res, next) => {
-	console.log(`${moment().format('MMMM Do YYYY, h:mm:ss a')}: Attempt to ${req.method} from/to SERVER at ${req.hostname}:${PORT}${req.originalUrl}`);
+	console.log(`${moment().format('MMMM Do YYYY, h:mm:ss a')}: Attempt to ${req.method} from/to SERVER at ${req.hostname}:${process.env.PORT}${req.originalUrl}`);
 	next();
 })
 
-Get Database on root
+// Get Database on root
 app.get('/', (req, res) => {
-	console.log(`${moment().format('MMMM Do YYYY, h:mm:ss a')}: SUCCESS - Database RETRIEVED sucessfully`);
+	console.log(`${moment().format('MMMM Do YYYY, h:mm:ss a')}: SUCCESS - Heroku is working!`);
 	return res.send('it is working!');
 })
 
