@@ -9,12 +9,12 @@ require('dotenv').config({path: __dirname + '/' + 'variables.env'}); // Imports 
 // DATABASE SETTINGS
 const database = knex({
 	//process.env.{variable} imports variables from variables.env file in root directory
-  client: process.env.client,
+  client: 'pg',
   connection: {
-    host : process.env.host,
-    user : process.env.user,
-    password : process.env.password,
-    database : process.env.database
+    host : 'postgresql-regular-42295',
+    user : 'postgres',
+    password : '23deMaio145',
+    database : 'magicbrain'
   }
 });
 
@@ -113,7 +113,7 @@ app.post('/register', (req, res) => {
 				.then(trx.commit)
 				.then(trx.rollback)
 				.catch(err => {
-					res.status(400).json('Unable to register!');
+					res.status(400).json('Unable to register! - User ${name} (email:${email}) ALREADY REGISTERED');
 					console.log(`${moment().format('MMMM Do YYYY, h:mm:ss a')}: FAIL - User ${name} (email:${email}) ALREADY REGISTERED`);
 				})
 		}).catch(err => {
