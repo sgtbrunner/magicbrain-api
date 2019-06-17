@@ -116,7 +116,9 @@ app.post('/register', (req, res) => {
 					res.status(400).json('Unable to register!');
 					console.log(`${moment().format('MMMM Do YYYY, h:mm:ss a')}: FAIL - User ${name} (email:${email}) ALREADY REGISTERED`);
 				})
-		})
+		}).catch(err => {
+			res.status(400).json('Unable to register!');
+		});
 });
 
 
