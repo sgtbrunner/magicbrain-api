@@ -110,8 +110,7 @@ app.post('/register', (req, res) => {
 				.then(trx.commit)
 				.then(trx.rollback)
 				.catch(err => {
-					res.status(400).json(err);
-					// res.status(400).json('Unable to register! - User ${name} (email:${email}) ALREADY REGISTERED');
+					res.status(400).json(`Unable to register! - User ${name} (email:${email}) ALREADY REGISTERED`);
 					console.log(`${moment().format('MMMM Do YYYY, h:mm:ss a')}: FAIL - User ${name} (email:${email}) ALREADY REGISTERED`);
 				})
 		}).catch(err => {
