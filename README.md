@@ -1,6 +1,6 @@
 # MagicBrain API
 
-Back-End for the MagicBrain App (https://github.com/sgtbrunner/magicbrain), a modern web application which identifies faces in images and display its boundaries. Built with React and Clarifai Face Recognition API.
+Back-End for the MagicBrain App (https://github.com/sgtbrunner/magicbrain), a modern web application which identifies faces in images and display its boundaries.
 
 ## Prerequisites
 
