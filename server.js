@@ -4,7 +4,7 @@ const knex = require('knex'); // Importing Knex: Connects Server and Database
 
 const { PORT } = require('./constants');
 const { logger } = require('./controllers/logger');
-const { handleDatabaseGet } = require('./controllers/database');
+const { handleServerStatus } = require('./controllers/database');
 const { handleProfileGet } = require('./controllers/profile');
 const { handleSignIn } = require('./controllers/signin');
 const { handleRegister } = require('./controllers/register');
@@ -35,8 +35,8 @@ app.use(cors());
 // Server logger
 app.use(logger);
 
-// Get Database on root
-app.get('/', handleDatabaseGet);
+// Get Server status
+app.get('/', handleServerStatus);
 
 // Get single user
 app.get('/profile/:id', handleProfileGet(database));
