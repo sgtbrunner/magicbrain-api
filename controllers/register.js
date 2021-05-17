@@ -1,7 +1,9 @@
 const moment = require('moment'); // Libray for printing timestamp
 const bcrypt = require('bcrypt'); // Allows password encryption using hash
 
-const handleRegister = (database) => (req, res) => {
+const { database } = require('../database');
+
+const handleRegister = (req, res) => {
   const { name, email, password } = req.body;
   const hash = bcrypt.hashSync(password, 10);
   database

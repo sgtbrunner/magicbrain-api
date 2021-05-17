@@ -1,26 +1,13 @@
 const express = require('express'); // Importing Express: Libray for server management
 const cors = require('cors'); // Importing CORS: Grants Access-Control-Allow-Origin between browser and server'
-const knex = require('knex'); // Importing Knex: Connects Server and Database
 
 const { PORT } = require('./constants');
 const { logger } = require('./controllers/logger');
-const { handleDatabaseGet } = require('./controllers/database');
+const { handleServerStatus } = require('./controllers/status');
 const { handleProfileGet } = require('./controllers/profile');
 const { handleSignIn } = require('./controllers/signin');
 const { handleRegister } = require('./controllers/register');
 const { handleApiCall, handleImage } = require('./controllers/image');
-
-// DATABASE SETTINGS
-const database = knex({
-  //process.env.{variable} imports variables from variables.env file in root directory
-  client: 'pg',
-  connection: {
-    host: '127.0.0.1',
-    user: 'andrei',
-    password: 'augustO00!',
-    database: 'smart-brain',
-  },
-});
 
 const app = express();
 
@@ -35,20 +22,22 @@ app.use(cors());
 // Server logger
 app.use(logger);
 
-// Get Database on root
-app.get('/', handleDatabaseGet);
+//ROUTES
+
+// Get Server status
+app.get('/', handleServerStatus);
 
 // Get single user
-app.get('/profile/:id', handleProfileGet(database));
+app.get('/profile/:id', handleProfileGet);
 
 // Sign-In users
-app.post('/signin', handleSignIn(database));
+app.post('/signin', handleSignIn);
 
 // Register
-app.post('/register', handleRegister(database));
+app.post('/register', handleRegister);
 
 // Get image and update entries
-app.put('/image', handleImage(database));
+app.put('/image', handleImage);
 
 // Checks image for face-recognition
 app.post('/imageurl', handleApiCall);

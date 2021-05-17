@@ -1,6 +1,8 @@
 const moment = require('moment'); // Libray for printing timestamp
 
-const handleProfileGet = (database) => (req, res) => {
+const { database } = require('../database');
+
+const handleProfileGet = (req, res) => {
   const { id } = req.params;
   database('users')
     .where('id', '=', id)

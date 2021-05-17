@@ -1,6 +1,8 @@
 const moment = require('moment'); // Libray for printing timestamp
 const Clarifai = require('clarifai'); // Clarifai app for image recognition
 
+const { database } = require('../database');
+
 const clarifaiApp = new Clarifai.App({
   apiKey: 'a9f14c51e25149479e18ee68eb3fa84b',
 });
@@ -9,12 +11,19 @@ const handleApiCall = (req, res) => {
   clarifaiApp.models
     .predict(Clarifai.FACE_DETECT_MODEL, req.body.input)
     .then((data) => {
+      console.log(
+        `${moment().format(
+          'MMMM Do YYYY, h:mm:ss a'
+        )}: SUCCESS - Clarifai api retrieved new image boundaries sucessfully`
+      );
       res.json(data);
     })
-    .catch((err) => res.status(400).json('unable to work with API', err));
+    .catch((err) =>
+      res.status(400).json('unable to work with Clarifai API', err)
+    );
 };
 
-const handleImage = (database) => (req, res) => {
+const handleImage = (req, res) => {
   const { id } = req.body;
   database('users')
     .where('id', '=', id)
