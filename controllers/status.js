@@ -6,7 +6,7 @@ const handleServerStatus = (req, res) => {
       'MMMM Do YYYY, h:mm:ss a'
     )}: SUCCESS - Heroku is working!`
   );
-  return res.send('it is working!');
+  return res.send('server is working!!!!');
 };
 
 module.exports = {
