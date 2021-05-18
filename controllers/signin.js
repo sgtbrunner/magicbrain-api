@@ -26,7 +26,7 @@ const handleSignIn = (req, res) => {
           })
           .catch((err) => {
             console.log(`Server unable to return user: ${err}`);
-            res.status(400).json(`Server unable to return user: ${err}`);
+            res.status(err.status || 500).json(`Server unable to return user: ${err}`);
           });
       } else {
         console.log(
@@ -41,13 +41,16 @@ const handleSignIn = (req, res) => {
     })
     .catch((err) => {
       console.log(
-        `${moment().format(
-          'MMMM Do YYYY, h:mm:ss a'
-        )}: HTTP ERROR STATUS 400 - Invalid user and/or password`
+        `${moment().format('MMMM Do YYYY, h:mm:ss a')}: HTTP ERROR STATUS ${
+          err.status
+        } - Invalid user and/or password`
       );
       return res
-        .status(400)
-        .json(`HTTP ERROR STATUS 400  - Invalid user and/or password`, err);
+        .status(err.status || 500)
+        .json(
+          `HTTP ERROR STATUS ${err.status}  - Invalid user and/or password`,
+          err
+        );
     });
 };
 

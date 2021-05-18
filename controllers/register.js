@@ -24,29 +24,29 @@ const handleRegister = (req, res) => {
               joined: new Date(),
             })
             .then((user) => {
-              res.json(user[0]);
               console.log(
                 `${moment().format(
                   'MMMM Do YYYY, h:mm:ss a'
                 )}: SUCCESS - User ${name} (email:${email}) REGISTERED sucessfully`
               );
+              res.json(user[0]);
             });
         })
         .then(trx.commit)
         .then(trx.rollback)
         .catch((err) => {
-          res
-            .status(400)
-            .json(`Unable to register! - Email "${email}" ALREADY REGISTERED`);
           console.log(
             `${moment().format(
               'MMMM Do YYYY, h:mm:ss a'
             )}: FAIL - User ${name} (email:${email}) ALREADY REGISTERED`
           );
+          res
+            .status(err.status || 500)
+            .json(`Unable to register! - Email "${email}" ALREADY REGISTERED`);
         });
     })
     .catch((err) => {
-      res.status(400).json('Unable to register!', err);
+      res.status(err.status || 500).json('Unable to register!', err);
     });
 };
 
