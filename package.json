@@ -1,24 +1,24 @@
 {
   "name": "magicbrain-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API for magicbrain app",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "start:dev": "set NODE_ENV=development && nodemon server.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["clarifai", "magicbrain"],
+  "author": "Guilherme Brunner",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.0",
-    "clarifai": "^2.9.0",
+    "clarifai": "^2.9.1",
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
-    "knex": "^0.19.5",
+    "knex": "^0.21.6",
     "moment": "^2.24.0",
-    "pg": "^7.11.0"
+    "pg": "^8.3.3"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
