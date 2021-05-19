@@ -2,9 +2,10 @@ const moment = require('moment'); // Libray for printing timestamp
 const Clarifai = require('clarifai'); // Clarifai app for image recognition
 
 const { database } = require('../database');
+const { API_KEY } = require('../config')
 
 const clarifaiApp = new Clarifai.App({
-  apiKey: 'a9f14c51e25149479e18ee68eb3fa84b',
+  apiKey: API_KEY,
 });
 
 const handleApiCall = (req, res) => {
