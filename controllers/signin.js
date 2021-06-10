@@ -3,6 +3,14 @@ const bcrypt = require('bcrypt'); // Allows password encryption using hash
 
 const { database } = require('../database');
 
+const {
+  DEFAULT_DATETIME_FORMAT,
+  ERROR_LOG_MESSAGE,
+  INVALID_USERNAME_PASSWORD_ERROR_MESSAGE,
+  INVALID_USERNAME_PASSWORD_LOG_ERROR,
+  SERVER_ERROR_MESSAGE,
+} = require('../constants');
+
 const handleSignIn = (req, res) => {
   const { email, password } = req.body;
   database
@@ -18,39 +26,50 @@ const handleSignIn = (req, res) => {
           .where('email', '=', email)
           .then((user) => {
             console.log(
-              `${moment().format('MMMM Do YYYY, h:mm:ss a')}: SUCCESS - User ${
+              `${moment().format(DEFAULT_DATETIME_FORMAT)}: SUCCESS - User ${
                 user[0].name
               } SIGNED-IN sucessfully`
             );
             return res.json(user[0]);
           })
           .catch((err) => {
-            console.log(`Server unable to return user: ${err}`);
-            res.status(err.status || 500).json(`Server unable to return user: ${err}`);
+            console.log(
+              `${moment().format(
+                DEFAULT_DATETIME_FORMAT
+              )}: HTTP ERROR STATUS 500 - Internal Server Error`
+            );
+            res.status(500).json(`Server unable to return user`);
           });
       } else {
         console.log(
           `${moment().format(
-            'MMMM Do YYYY, h:mm:ss a'
-          )}: HTTP ERROR STATUS 400 - Invalid user and/or password`
+            DEFAULT_DATETIME_FORMAT
+          )}: ${INVALID_USERNAME_PASSWORD_LOG_ERROR}`
         );
-        return res
-          .status(400)
-          .json(`HTTP ERROR STATUS 400  - Invalid user and/or password`);
+        return res.status(401).json({
+          error: INVALID_USERNAME_PASSWORD_ERROR_MESSAGE,
+        });
       }
     })
     .catch((err) => {
-      console.log(
-        `${moment().format('MMMM Do YYYY, h:mm:ss a')}: HTTP ERROR STATUS ${
-          err.status
-        } - Invalid user and/or password`
-      );
-      return res
-        .status(err.status || 500)
-        .json(
-          `HTTP ERROR STATUS ${err.status}  - Invalid user and/or password`,
-          err
+      if (
+        String(err) === `TypeError: Cannot read property 'hash' of undefined`
+      ) {
+        console.log(
+          `${moment().format(
+            DEFAULT_DATETIME_FORMAT
+          )}: ${INVALID_USERNAME_PASSWORD_LOG_ERROR}`
         );
+        return res.status(401).json({
+          error: INVALID_USERNAME_PASSWORD_ERROR_MESSAGE,
+        });
+      }
+      console.log(
+        `${moment().format(DEFAULT_DATETIME_FORMAT)}: ${ERROR_LOG_MESSAGE}`
+      );
+      return res.status(400).json({
+        error: SERVER_ERROR_MESSAGE,
+      });
     });
 };
 
