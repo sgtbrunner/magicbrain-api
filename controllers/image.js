@@ -2,7 +2,12 @@ const moment = require('moment'); // Libray for printing timestamp
 const Clarifai = require('clarifai'); // Clarifai app for image recognition
 
 const { database } = require('../database');
-const { API_KEY } = require('../config')
+const { API_KEY } = require('../config');
+const {
+  DEFAULT_DATETIME_FORMAT,
+  ERROR_LOG_MESSAGE,
+  SERVER_ERROR_MESSAGE,
+} = require('../constants');
 
 const clarifaiApp = new Clarifai.App({
   apiKey: API_KEY,
@@ -14,14 +19,22 @@ const handleApiCall = (req, res) => {
     .then((data) => {
       console.log(
         `${moment().format(
-          'MMMM Do YYYY, h:mm:ss a'
+          DEFAULT_DATETIME_FORMAT
         )}: SUCCESS - Clarifai api retrieved new image boundaries sucessfully`
       );
       res.json(data);
     })
-    .catch((err) =>
-      res.status(400).json('unable to work with Clarifai API', err)
-    );
+    .catch((err) => {
+      console.log(
+        `${moment().format(
+          DEFAULT_DATETIME_FORMAT
+        )}: FAIL - Unable to work with Clarifai API`
+      );
+      res.status(400).json({
+        error:
+          'Unable to detect faces on selected image. Please check your url and try again.',
+      });
+    });
 };
 
 const handleImage = (req, res) => {
@@ -34,22 +47,28 @@ const handleImage = (req, res) => {
       if (entries.length) {
         console.log(
           `${moment().format(
-            'MMMM Do YYYY, h:mm:ss a'
+            DEFAULT_DATETIME_FORMAT
           )}: SUCCESS - User id ${id} SUBMITED a new image sucessfully`
         );
-        return res.json(entries[0]);
+        return res.json({ count: entries[0] });
       } else {
         console.log(
           `${moment().format(
-            'MMMM Do YYYY, h:mm:ss a'
-          )}: HTTP ERROR STATUS 404 - User id ${id} not found`
+            DEFAULT_DATETIME_FORMAT
+          )}: HTTP ERROR STATUS 400 - Unable to process user entries`
         );
-        return res.status(404).json(`User id ${id} not found`);
+        return res.status(400).json({
+          error: 'Unable to update your image count. Please try again later',
+        });
       }
     })
     .catch((err) => {
-      console.log(`Unable to get entries`);
-      res.status(400).json(`Unable to get entries`, err);
+      console.log(
+        `${moment().format(DEFAULT_DATETIME_FORMAT)}: ${ERROR_LOG_MESSAGE}`
+      );
+      res.status(400).json({
+        error: SERVER_ERROR_MESSAGE,
+      });
     });
 };
 
