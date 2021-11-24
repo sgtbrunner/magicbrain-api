@@ -162,7 +162,7 @@ Have `npm` installed in your machine.
 
 1. Starting the app
    ```sh
-   npm start:dev
+   npm run start:dev
    ```
    The project should be served at:
    ```sh
